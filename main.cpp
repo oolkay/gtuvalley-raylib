@@ -6,7 +6,7 @@ typedef struct s_player
     Vector2 position;
 } t_player;
 
-void fillImages(Image* character, Image* walk, Image* up, Image* down, Image* rw, Image* slime)
+void fillImages(Image* character, Image* walk, Image* up, Image* down, Image* rw, Image* slime, Image* attack)
 {
     character[0] = LoadImage("assets/character/sprite1.png");
     character[1] = LoadImage("assets/character/sprite2.png");
@@ -44,10 +44,16 @@ void fillImages(Image* character, Image* walk, Image* up, Image* down, Image* rw
     slime[3] = LoadImage("assets/slime/slime4.png");
     slime[4] = LoadImage("assets/slime/slime5.png");
     slime[5] = LoadImage("assets/slime/slime6.png");
+    attack[0] = LoadImage("assets/character/attack1.png");
+    attack[1] = LoadImage("assets/character/attack2.png");
+    attack[2] = LoadImage("assets/character/attack3.png");
+    attack[3] = LoadImage("assets/character/attack4.png");
 }
 
 void downSprite(Texture2D& img_tex, int& d, Image* down)
 {
+
+    UnloadTexture(img_tex);
     if (d % 60 <= 10)
         img_tex = LoadTextureFromImage(down[0]);
     else if (d % 60 <= 20)
@@ -67,6 +73,7 @@ void downSprite(Texture2D& img_tex, int& d, Image* down)
 
 void upSprite(Texture2D& img_tex, int& u, Image* up)
 {
+    UnloadTexture(img_tex);
     if (u % 60 <= 10)
         img_tex = LoadTextureFromImage(up[0]);
     else if (u % 60 <= 20)
@@ -86,6 +93,7 @@ void upSprite(Texture2D& img_tex, int& u, Image* up)
 
 void rightSprite(Texture2D& img_tex, int& r, Image* rw)
 {
+    UnloadTexture(img_tex);
     if (r % 60 <= 10)
         img_tex = LoadTextureFromImage(rw[0]);
     else if (r % 60 <= 20)
@@ -105,6 +113,7 @@ void rightSprite(Texture2D& img_tex, int& r, Image* rw)
 
 void leftSprite(Texture2D& img_tex, int& wlk, Image* walk)
 {
+    UnloadTexture(img_tex);
     if (wlk % 60 <= 10)
         img_tex = LoadTextureFromImage(walk[0]);
     else if (wlk % 60 <= 20)
@@ -124,6 +133,7 @@ void leftSprite(Texture2D& img_tex, int& wlk, Image* walk)
 
 void defaultSprite(Texture2D& img_tex, int& spt, Image* character)
 {
+    UnloadTexture(img_tex);
     if (spt % 60 <= 10)
         img_tex = LoadTextureFromImage(character[0]);
     else if (spt % 60 <= 20)
@@ -143,6 +153,7 @@ void defaultSprite(Texture2D& img_tex, int& spt, Image* character)
 
 void slimeSprite(Texture2D& slm, int& slc, Image* slime)
 {
+    UnloadTexture(slm);
     if (slc % 60 <= 10)
         slm = LoadTextureFromImage(slime[0]);
     else if (slc % 60 <= 20)
@@ -158,7 +169,22 @@ void slimeSprite(Texture2D& slm, int& slc, Image* slime)
     slm.width = 40;
     slm.height = 40;
     slc++;
+}
 
+void attackSprite(Texture2D& atck, int& at, Image* attack)
+{
+    UnloadTexture(atck);
+    if (at % 16 <= 4)
+        atck = LoadTextureFromImage(attack[0]);
+    else if (at % 16 <= 8)
+        atck = LoadTextureFromImage(attack[1]);
+    else if (at % 16 <= 12)
+        atck = LoadTextureFromImage(attack[2]);
+    else if (at % 16 <= 16)
+        atck = LoadTextureFromImage(attack[3]);
+    atck.width = 40;
+    atck.height = 40;
+    at++;
 }
 
 //------------------------------------------------------------------------------------
@@ -176,9 +202,14 @@ int main(void)
     int u = 0;
     int d = 0;
     int r = 0;
+    int at = 0;
     InitWindow(screenWidth, screenHeight, "csgo");
 
     t_player player;
+
+    //-------------------------------------------------------------------------------------
+    //SET IMAGES
+    //-------------------------------------------------------------------------------------
     Image character[6];   // Load image in CPU memory (RAM)
     Image walk[6];
     Image up[6];
@@ -186,16 +217,24 @@ int main(void)
     Image rw[6];
     Image fencetek = LoadImage("assets/fences/fencesingle.png");
     Image slime[6];
-    fillImages(character, walk, up, down, rw, slime);
-
-
+    Image attack[4];
     Image floor = LoadImage("assets/grass.png");   // Load image in CPU memory (RAM)
+    fillImages(character, walk, up, down, rw, slime, attack);
+    //-------------------------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------------------------
+    //SET TEXTURES
+    //-------------------------------------------------------------------------------------
     Texture2D img_tex = LoadTextureFromImage(character[0]);
     Texture2D img_tex2 = LoadTextureFromImage(floor);
     Texture2D ft = LoadTextureFromImage(fencetek);
     Texture2D slm;
+    Texture2D atck;
+    //-------------------------------------------------------------------------------------
+
+    Rectangle playerArea = { player.position.x, player.position.y, 40, 40};
     int slc = 0;
-    Rectangle playerArea = { player.position.x, player.position.y, 50, 50};
     ft.width = 40;
     ft.height = 40;
     img_tex.width = 40;
@@ -205,12 +244,24 @@ int main(void)
     player.texture = img_tex;
     player.position = (Vector2){ 400, 280 };
 
+    //-------------------------------------------------------------------------------------
+    //SET CAMERA
+    //-------------------------------------------------------------------------------------
     int spacing = 0;
     Camera2D camera = { 0 };
     camera.target = (Vector2){ player.position.x + 20.0f, player.position.y + 20.0f };
     camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
+    //-------------------------------------------------------------------------------------
+
+    Vector2 randomFence[20];
+    for (int i = 0; i < 20; ++i)
+    {
+        randomFence[i].x =  GetRandomValue(200,700) + i*20;
+        randomFence[i].y =  GetRandomValue(100,600) + i*20;
+    }
+
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -244,8 +295,13 @@ int main(void)
             upSprite(img_tex, d, down);
             player.position.y += 2;
         }
+        else if (IsKeyDown(KEY_SPACE))
+            attackSprite(img_tex, at, attack);
         else
+        {
             defaultSprite(img_tex, spt, character);
+            at = 0;
+        }
         slimeSprite(slm, slc, slime);
         playerArea.x = player.position.x;
         playerArea.y = player.position.y;
@@ -284,10 +340,11 @@ int main(void)
             BeginMode2D(camera);
                 DrawTexture(img_tex, player.position.x,player.position.y, WHITE);
                 spd++;
-                DrawTexture(ft, 470, 300, WHITE);
-                DrawTexture(ft, 230, 550, WHITE);
-                DrawTexture(ft, 700, 280, WHITE);
-                DrawTexture(ft, 400, 120, WHITE);
+                /*200 700, 100 600*/
+                for (int i = 0; i < 20; ++i)
+                {
+                    DrawTexture(ft, randomFence[i].x, randomFence[i].y, WHITE);
+                }
                 DrawTexture(slm, 350, 420, WHITE);
                 DrawTexture(slm, 170, 60, WHITE);
                 DrawTexture(slm, 250, 700, WHITE);
@@ -308,6 +365,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    UnloadTexture(img_tex);       // Texture unloading
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
