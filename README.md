@@ -21,7 +21,7 @@ Controls
 
 Development
 
-Want to contribute? Great! Here's how you can help:
+Want to contribute? Great! Here's how you can help: 
 
     Fork the repo.
     Create a new branch (git checkout -b feature/AmazingFeature).
