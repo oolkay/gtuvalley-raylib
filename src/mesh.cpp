@@ -1,4 +1,5 @@
 #include "mesh.hpp"
+#include <iostream>
 
 mesh::mesh(): _name("Default"), _position(), _textures(), _hitbox(){}
 
@@ -48,5 +49,7 @@ void mesh::setHitbox(const Rectangle &hitbox)
 
 void mesh::drawRec(const string &key)
 {
-    DrawTextureRec(_textures[key].getTexture(), _textures[key].getFrame(), _position, WHITE);
+    if (_textures[key].getCurrentFrame() % 5 == 0)
+        _textures[key].updateRect();
+    DrawTextureRec(_textures[key].getTexture(), _textures[key].getRect(), _position, WHITE);
 }

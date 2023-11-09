@@ -10,146 +10,142 @@
 using namespace std;
 
 
-void downSprite(Texture2D& img_tex, int& d, Image* down)
-{
+// void downSprite(Texture2D& img_tex, int& d, Image* down)
+// {
 
-    UnloadTexture(img_tex);
-    if (d % 60 <= 10)
-        img_tex = LoadTextureFromImage(down[0]);
-    else if (d % 60 <= 20)
-        img_tex = LoadTextureFromImage(down[1]);
-    else if (d % 60 <= 30)
-        img_tex = LoadTextureFromImage(down[2]);
-    else if (d % 60 <= 40)
-        img_tex = LoadTextureFromImage(down[3]);
-    else if (d % 60 <= 50)
-        img_tex = LoadTextureFromImage(down[4]);
-    else if (d % 60 <= 60)
-        img_tex = LoadTextureFromImage(down[5]);
-    img_tex.width = 40;
-    img_tex.height = 40;
-    d++;
-}
+//     UnloadTexture(img_tex);
+//     if (d % 60 <= 10)
+//         img_tex = LoadTextureFromImage(down[0]);
+//     else if (d % 60 <= 20)
+//         img_tex = LoadTextureFromImage(down[1]);
+//     else if (d % 60 <= 30)
+//         img_tex = LoadTextureFromImage(down[2]);
+//     else if (d % 60 <= 40)
+//         img_tex = LoadTextureFromImage(down[3]);
+//     else if (d % 60 <= 50)
+//         img_tex = LoadTextureFromImage(down[4]);
+//     else if (d % 60 <= 60)
+//         img_tex = LoadTextureFromImage(down[5]);
+//     img_tex.width = 40;
+//     img_tex.height = 40;
+//     d++;
+// }
 
-void upSprite(Texture2D& img_tex, int& u, Image* up)
-{
-    UnloadTexture(img_tex);
-    if (u % 60 <= 10)
-        img_tex = LoadTextureFromImage(up[0]);
-    else if (u % 60 <= 20)
-        img_tex = LoadTextureFromImage(up[1]);
-    else if (u % 60 <= 30)
-        img_tex = LoadTextureFromImage(up[2]);
-    else if (u % 60 <= 40)
-        img_tex = LoadTextureFromImage(up[3]);
-    else if (u % 60 <= 50)
-        img_tex = LoadTextureFromImage(up[4]);
-    else if (u % 60 <= 60)
-        img_tex = LoadTextureFromImage(up[5]);
-    img_tex.width = 40;
-    img_tex.height = 40;
-    u++;
-}
+// void upSprite(Texture2D& img_tex, int& u, Image* up)
+// {
+//     UnloadTexture(img_tex);
+//     if (u % 60 <= 10)
+//         img_tex = LoadTextureFromImage(up[0]);
+//     else if (u % 60 <= 20)
+//         img_tex = LoadTextureFromImage(up[1]);
+//     else if (u % 60 <= 30)
+//         img_tex = LoadTextureFromImage(up[2]);
+//     else if (u % 60 <= 40)
+//         img_tex = LoadTextureFromImage(up[3]);
+//     else if (u % 60 <= 50)
+//         img_tex = LoadTextureFromImage(up[4]);
+//     else if (u % 60 <= 60)
+//         img_tex = LoadTextureFromImage(up[5]);
+//     img_tex.width = 40;
+//     img_tex.height = 40;
+//     u++;
+// }
 
-void rightSprite(Texture2D& img_tex, int& r, Image* rw)
-{
-    UnloadTexture(img_tex);
-    if (r % 60 <= 10)
-        img_tex = LoadTextureFromImage(rw[0]);
-    else if (r % 60 <= 20)
-        img_tex = LoadTextureFromImage(rw[1]);
-    else if (r % 60 <= 30)
-        img_tex = LoadTextureFromImage(rw[2]);
-    else if (r % 60 <= 40)
-        img_tex = LoadTextureFromImage(rw[3]);
-    else if (r % 60 <= 50)
-        img_tex = LoadTextureFromImage(rw[4]);
-    else if (r % 60 <= 60)
-        img_tex = LoadTextureFromImage(rw[5]);
-    img_tex.width = 40;
-    img_tex.height = 40;
-    r++;
-}
+// void rightSprite(Texture2D& img_tex, int& r, Image* rw)
+// {
+//     UnloadTexture(img_tex);
+//     if (r % 60 <= 10)
+//         img_tex = LoadTextureFromImage(rw[0]);
+//     else if (r % 60 <= 20)
+//         img_tex = LoadTextureFromImage(rw[1]);
+//     else if (r % 60 <= 30)
+//         img_tex = LoadTextureFromImage(rw[2]);
+//     else if (r % 60 <= 40)
+//         img_tex = LoadTextureFromImage(rw[3]);
+//     else if (r % 60 <= 50)
+//         img_tex = LoadTextureFromImage(rw[4]);
+//     else if (r % 60 <= 60)
+//         img_tex = LoadTextureFromImage(rw[5]);
+//     img_tex.width = 40;
+//     img_tex.height = 40;
+//     r++;
+// }
 
-void leftSprite(Texture2D& img_tex, int& wlk, Image* walk)
-{
-    UnloadTexture(img_tex);
-    if (wlk % 60 <= 10)
-        img_tex = LoadTextureFromImage(walk[0]);
-    else if (wlk % 60 <= 20)
-        img_tex = LoadTextureFromImage(walk[1]);
-    else if (wlk % 60 <= 30)
-        img_tex = LoadTextureFromImage(walk[2]);
-    else if (wlk % 60 <= 40)
-        img_tex = LoadTextureFromImage(walk[3]);
-    else if (wlk % 60 <= 50)
-        img_tex = LoadTextureFromImage(walk[4]);
-    else if (wlk % 60 <= 60)
-        img_tex = LoadTextureFromImage(walk[5]);
-    img_tex.width = 40;
-    img_tex.height = 40;
-    wlk++;
-}
+// void leftSprite(Texture2D& img_tex, int& wlk, Image* walk)
+// {
+//     UnloadTexture(img_tex);
+//     if (wlk % 60 <= 10)
+//         img_tex = LoadTextureFromImage(walk[0]);
+//     else if (wlk % 60 <= 20)
+//         img_tex = LoadTextureFromImage(walk[1]);
+//     else if (wlk % 60 <= 30)
+//         img_tex = LoadTextureFromImage(walk[2]);
+//     else if (wlk % 60 <= 40)
+//         img_tex = LoadTextureFromImage(walk[3]);
+//     else if (wlk % 60 <= 50)
+//         img_tex = LoadTextureFromImage(walk[4]);
+//     else if (wlk % 60 <= 60)
+//         img_tex = LoadTextureFromImage(walk[5]);
+//     img_tex.width = 40;
+//     img_tex.height = 40;
+//     wlk++;
+// }
 
-void defaultSprite(Texture2D& img_tex, int& spt, Image* character)
-{
-    UnloadTexture(img_tex);
-    if (spt % 60 <= 10)
-        img_tex = LoadTextureFromImage(character[0]);
-    else if (spt % 60 <= 20)
-        img_tex = LoadTextureFromImage(character[1]);
-    else if (spt % 60 <= 30)
-        img_tex = LoadTextureFromImage(character[2]);
-    else if (spt % 60 <= 40)
-        img_tex = LoadTextureFromImage(character[3]);
-    else if (spt % 60 <= 50)
-        img_tex = LoadTextureFromImage(character[4]);
-    else if (spt % 60 <= 60)
-        img_tex = LoadTextureFromImage(character[5]);
-    img_tex.width = 40;
-    img_tex.height = 40;
-    spt++;
-}
+// void defaultSprite(Texture2D& img_tex, int& spt, Image* character)
+// {
+//     UnloadTexture(img_tex);
+//     if (spt % 60 <= 10)
+//         img_tex = LoadTextureFromImage(character[0]);
+//     else if (spt % 60 <= 20)
+//         img_tex = LoadTextureFromImage(character[1]);
+//     else if (spt % 60 <= 30)
+//         img_tex = LoadTextureFromImage(character[2]);
+//     else if (spt % 60 <= 40)
+//         img_tex = LoadTextureFromImage(character[3]);
+//     else if (spt % 60 <= 50)
+//         img_tex = LoadTextureFromImage(character[4]);
+//     else if (spt % 60 <= 60)
+//         img_tex = LoadTextureFromImage(character[5]);
+//     img_tex.width = 40;
+//     img_tex.height = 40;
+//     spt++;
+// }
 
-void slimeSprite(Texture2D& slm, int& slc, Image* slime)
-{
-    UnloadTexture(slm);
-    if (slc % 60 <= 10)
-        slm = LoadTextureFromImage(slime[0]);
-    else if (slc % 60 <= 20)
-        slm = LoadTextureFromImage(slime[1]);
-    else if (slc % 60 <= 30)
-        slm = LoadTextureFromImage(slime[2]);
-    else if (slc % 60 <= 40)
-        slm = LoadTextureFromImage(slime[3]);
-    else if (slc % 60 <= 50)
-        slm = LoadTextureFromImage(slime[4]);
-    else if (slc % 60 <= 60)
-        slm = LoadTextureFromImage(slime[5]);
-    slm.width = 40;
-    slm.height = 40;
-    slc++;
-}
+// void slimeSprite(Texture2D& slm, int& slc, Image* slime)
+// {
+//     UnloadTexture(slm);
+//     if (slc % 60 <= 10)
+//         slm = LoadTextureFromImage(slime[0]);
+//     else if (slc % 60 <= 20)
+//         slm = LoadTextureFromImage(slime[1]);
+//     else if (slc % 60 <= 30)
+//         slm = LoadTextureFromImage(slime[2]);
+//     else if (slc % 60 <= 40)
+//         slm = LoadTextureFromImage(slime[3]);
+//     else if (slc % 60 <= 50)
+//         slm = LoadTextureFromImage(slime[4]);
+//     else if (slc % 60 <= 60)
+//         slm = LoadTextureFromImage(slime[5]);
+//     slm.width = 40;
+//     slm.height = 40;
+//     slc++;
+// }
 
-void attackSprite(Texture2D& atck, int& at, Image* attack)
-{
-    UnloadTexture(atck);
-    if (at % 16 <= 4)
-        atck = LoadTextureFromImage(attack[0]);
-    else if (at % 16 <= 8)
-        atck = LoadTextureFromImage(attack[1]);
-    else if (at % 16 <= 12)
-        atck = LoadTextureFromImage(attack[2]);
-    else if (at % 16 <= 16)
-        atck = LoadTextureFromImage(attack[3]);
-    atck.width = 40;
-    atck.height = 40;
-    at++;
-}
-
-
-
-
+// void attackSprite(Texture2D& atck, int& at, Image* attack)
+// {
+//     UnloadTexture(atck);
+//     if (at % 16 <= 4)
+//         atck = LoadTextureFromImage(attack[0]);
+//     else if (at % 16 <= 8)
+//         atck = LoadTextureFromImage(attack[1]);
+//     else if (at % 16 <= 12)
+//         atck = LoadTextureFromImage(attack[2]);
+//     else if (at % 16 <= 16)
+//         atck = LoadTextureFromImage(attack[3]);
+//     atck.width = 40;
+//     atck.height = 40;
+//     at++;
+// }
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -157,7 +153,8 @@ void attackSprite(Texture2D& atck, int& at, Image* attack)
 int main(void)
 {
     // Initialization
-    //--------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------
+
     const int screenWidth = 800;
     const int screenHeight = 450;
     int spt = 0;
@@ -174,10 +171,10 @@ int main(void)
 
     player pl;   
     pl.addTexture("walkR", (Vector2){6, 1}, LoadTexture("sprites/characters/walkR.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
-    pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
+    // pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
     pl.addTexture("walkU", (Vector2){6, 1}, LoadTexture("sprites/characters/walkU.png"), 40, 40);
     pl.addTexture("walkD", (Vector2){6, 1}, LoadTexture("sprites/characters/walkD.png"), 40, 40);
-    pl.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/walkR.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
+    pl.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
     pl.setSpeed(2);
     pl.setPosition((Vector2){ 400, 280 });
     pl.setHitbox((Rectangle){ 400, 280, 50, 50 });
@@ -223,17 +220,14 @@ int main(void)
     camera.rotation = 0.0f;
     camera.zoom = 2.0f;
     //-------------------------------------------------------------------------------------
-
-
-
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
-
         // Update
+        pl.getTextures()["stand"].getCurrentFrame();
         //----------------------------------------------------------------------------------
         // Player movement
         pl.move();
@@ -271,10 +265,9 @@ int main(void)
                 for (int j = 0 ; j < 10; j++)
                     DrawTexture(floor, i*40, j*45, WHITE);
             BeginMode2D(camera);
-                pl.drawRec("walkR");
-                fen.drawRec(string("default"));
+                pl.drawRec("stand");
+                fen.drawRec("default");
             EndMode2D();
-
             DrawText("GTU VALLEY", 640, 10, 20, RED);
             DrawRectangle( 10, 10, 250, 113, Fade(SKYBLUE, 0.5f));
             DrawRectangleLines( 10, 10, 250, 113, BLUE);
