@@ -170,8 +170,8 @@ int main(void)
     floor.height = 45;
 
     player pl;   
+    pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
     pl.addTexture("walkR", (Vector2){6, 1}, LoadTexture("sprites/characters/walkR.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
-    // pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
     pl.addTexture("walkU", (Vector2){6, 1}, LoadTexture("sprites/characters/walkU.png"), 40, 40);
     pl.addTexture("walkD", (Vector2){6, 1}, LoadTexture("sprites/characters/walkD.png"), 40, 40);
     pl.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
@@ -231,7 +231,6 @@ int main(void)
         //----------------------------------------------------------------------------------
         // Player movement
         pl.move();
-
         // Camera target follows player
         camera.target = pl.getPosition();
 
@@ -265,7 +264,7 @@ int main(void)
                 for (int j = 0 ; j < 10; j++)
                     DrawTexture(floor, i*40, j*45, WHITE);
             BeginMode2D(camera);
-                pl.drawRec("stand");
+                pl.drawRec(pl.getCurrentTexture());
                 fen.drawRec("default");
             EndMode2D();
             DrawText("GTU VALLEY", 640, 10, 20, RED);

@@ -34,26 +34,41 @@ void player::setLevel(const int &level)
 
 void player::checkKeys()
 {
-    if (IsKeyDown(KEY_UP))
+    setCurrentTexture("stand");
+    if (IsKeyDown(KEY_UP)){
         _keys["upArrow"] = true;
-    else
+        setCurrentTexture("walkU");
+    }
+    else{
         _keys["upArrow"] = false;
-    if (IsKeyDown(KEY_LEFT))
+    }
+    if (IsKeyDown(KEY_LEFT)){
         _keys["leftArrow"] = true;
-    else
+        setCurrentTexture("walkL");
+    }
+    else{
         _keys["leftArrow"] = false;
-    if (IsKeyDown(KEY_DOWN))
+    }
+    if (IsKeyDown(KEY_DOWN)){
         _keys["downArrow"] = true;
-    else
+        setCurrentTexture("walkD");
+    }
+    else{
         _keys["downArrow"] = false;
-    if (IsKeyDown(KEY_RIGHT))
+    }
+    if (IsKeyDown(KEY_RIGHT)){
         _keys["rightArrow"] = true;
-    else
+        setCurrentTexture("walkR");
+    }
+    else{
         _keys["rightArrow"] = false;
-    if (IsKeyDown(KEY_SPACE))
+    }
+    if (IsKeyDown(KEY_SPACE)){
         _keys["space"] = true;
-    else
-        _keys["space"] = false;
+    }
+    else{
+        _keys["space"] = false;    
+    }
 }
 
 void player::move()
@@ -72,5 +87,3 @@ void player::move()
     _hitbox.x = _position.x;
     _hitbox.y = _position.y;
 }
-
-
