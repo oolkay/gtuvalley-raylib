@@ -27,6 +27,13 @@ class player : public mesh
         bool getKey(const string &key) const {return _keys.at(key);}
         void checkKeys();
         void move();
+        /*
+        TODO:
+                TAKE DAMAGE
+                ATTACK
+                DIE
+                ...
+        */
 };
 
 #endif
