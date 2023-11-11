@@ -2,7 +2,7 @@
 #define PLAYER_HPP
 
 #include "mesh.hpp"
-
+#include "fence.hpp"
 
 
 class player : public mesh
@@ -26,7 +26,7 @@ class player : public mesh
         int getLevel() const {return _level;}
         bool getKey(const string &key) const {return _keys.at(key);}
         void checkKeys();
-        void move();
+        void move(const fence& fen);
         /*
         TODO:
                 TAKE DAMAGE

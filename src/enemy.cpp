@@ -67,16 +67,14 @@ void Enemy::setAttackRange(unsigned int attackRange)
 
 void Enemy::move(const player& pl)
 {
-    if (pl.getPosition().x > _position.x)
+    if (pl.getPosition().x > _position.x + _speed*20)
         _position.x += _speed;
-    else if (pl.getPosition().x < _position.x)
+    else if (pl.getPosition().x < _position.x - _speed*20)
         _position.x -= _speed;
-    if (pl.getPosition().y > _position.y)
+    if (pl.getPosition().y > _position.y + _speed*20)
         _position.y += _speed;
-    else if (pl.getPosition().y < _position.y)
+    else if (pl.getPosition().y < _position.y - _speed*20)
         _position.y -= _speed;
-    _hitbox.x = _position.x;
-    _hitbox.y = _position.y;
 }
 
 void Enemy::attack()

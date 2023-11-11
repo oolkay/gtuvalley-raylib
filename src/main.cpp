@@ -47,7 +47,7 @@ int main(void)
     floor.width = 40;
     floor.height = 45;
 
-    player pl;   
+    player pl;
     pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
     pl.addTexture("walkR", (Vector2){6, 1}, LoadTexture("sprites/characters/walkR.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
     pl.addTexture("walkU", (Vector2){6, 1}, LoadTexture("sprites/characters/walkU.png"), 40, 40);
@@ -55,15 +55,15 @@ int main(void)
     pl.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
     pl.setSpeed(2);
     pl.setPosition((Vector2){ 400, 280 });
-    pl.setHitbox((Rectangle){ 400, 280, 50, 50 });
+    pl.setHitbox((Rectangle){ 417, 305, 15.3f, 10 });
     fence fen;
     fen.setPosition((Vector2){ 480, 360 });
-    fen.setHitbox((Rectangle){ 480, 360, 40, 40 });
+    fen.setHitbox((Rectangle){ 480.7f, 362.5f, 11.5f, 10 });
     fen.addTexture(string("default"), (Vector2){ 1, 1 }, LoadTexture("assets/fences/fencesingle.png"), 40, 40);
     Enemy en;
     en.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40);
     en.setPosition((Vector2){ 200, 150 });
-    en.setHitbox((Rectangle){ 200, 150, 50, 50 });
+    en.setHitbox((Rectangle){ 218, 175, 12, 12 });
 
 
     //-------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ int main(void)
         pl.getTextures()["stand"].getCurrentFrame();
         //----------------------------------------------------------------------------------
         // Player movement
-        pl.move();
+        pl.move(fen);
         // Camera target follows player
         camera.target = pl.getPosition();
 
@@ -123,6 +123,8 @@ int main(void)
             BeginMode2D(camera);
                 pl.drawRec(pl.getCurrentTexture());
                 fen.drawRec("default");
+                // DrawRectangleRec(pl.getHitbox(), Fade(LIGHTGRAY, 0.5f));
+                // DrawRectangleRec(en.getHitbox(), Fade(RED, 0.5f));
                 en.drawRec("stand");
                 en.move(pl);
             EndMode2D();

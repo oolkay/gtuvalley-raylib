@@ -71,19 +71,41 @@ void player::checkKeys()
     }
 }
 
-void player::move()
+void player::move(const fence& fen)
 {
     checkKeys();
     if (_keys["upArrow"])
-        _position.y -= _speed;
+    {
+        _hitbox.y -= _speed;
+        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
+            _position.y -= _speed;
+        else
+            _hitbox.y += _speed;
+    }
     if (_keys["leftArrow"])
-        _position.x -= _speed;
+    {
+        _hitbox.x -= _speed;
+        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
+            _position.x -= _speed;
+        else
+            _hitbox.x += _speed;
+    }
     if (_keys["downArrow"])
-        _position.y += _speed;
+    {
+        _hitbox.y += _speed;
+        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
+            _position.y += _speed;
+        else
+            _hitbox.y -= _speed;
+    }
     if (_keys["rightArrow"])
-        _position.x += _speed;
-    if (_keys["space"])
-        _speed *= 2;
-    _hitbox.x = _position.x;
-    _hitbox.y = _position.y;
+    {
+        _hitbox.x += _speed;
+        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
+            _position.x += _speed;
+        else
+            _hitbox.x -= _speed;        
+    }
+    if (_keys["space"]);
+        // _speed *= 2;
 }
