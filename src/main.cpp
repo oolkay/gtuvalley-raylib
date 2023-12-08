@@ -34,19 +34,22 @@ int main(void)
     // Initialization
     //-------------------------------------------------------------------------------------
 
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    int screenWidth = 800;
+    int screenHeight = 450;
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "csgo");
     Texture2D floor = LoadTexture("assets/grass.png");
+
     Texture2D hp = LoadTexture("sprites/particles/hp.png");
     Texture2D bar = LoadTexture("sprites/rpg.png");
     bar.height = 250;
     bar.width = 250;
     hp.height = 20;
     hp.width = 20;
-    floor.width = 40;
-    floor.height = 45;
-
+    floor.width = 16;
+    floor.height = 16;
+    int numTilesX = screenWidth / floor.width ;
+    int numTilesY = screenHeight / floor.height;
     player pl;
     pl.addTexture("walkL", (Vector2){6, 1}, LoadTexture("sprites/characters/walkL.png"), 40, 40);
     pl.addTexture("walkR", (Vector2){6, 1}, LoadTexture("sprites/characters/walkR.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
@@ -81,7 +84,13 @@ int main(void)
 
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
-    {
+    {   
+        if(IsWindowResized()){
+            screenHeight = GetScreenHeight();
+            screenWidth = GetScreenWidth();
+            numTilesX = screenWidth / floor.width ;
+            numTilesY = screenHeight / floor.height;
+        }
         // Update
         pl.getTextures()["stand"].getCurrentFrame();
         //----------------------------------------------------------------------------------
@@ -111,15 +120,31 @@ int main(void)
             camera.rotation = 0.0f;
         }
         //----------------------------------------------------------------------------------
+        
+         if(IsWindowResized()){
+            
+            numTilesX = screenWidth / floor.width ;
+            numTilesY = screenHeight / floor.height;
+        }    
+            
+
 
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-            ClearBackground(RAYWHITE);
-            for (int i = 0; i < 20; i++)
-                for (int j = 0 ; j < 10; j++)
-                    DrawTexture(floor, i*40, j*45, WHITE);
+
+       ClearBackground(RAYWHITE);
+            for (int i = 0; i < numTilesX ; i++)
+                for (int j = 0 ; j < numTilesY; j++){
+                    if(i == numTilesX-1 && j == numTilesY -1){
+                        cout << i<<" "<<j<<endl;
+                    }
+                       
+                    DrawTexture(floor, i*16, j*16, WHITE);
+                    
+                }
+                    
             BeginMode2D(camera);
                 pl.drawRec(pl.getCurrentTexture());
                 fen.drawRec("default");
