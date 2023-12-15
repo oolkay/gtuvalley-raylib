@@ -1,6 +1,7 @@
 #ifndef MESHHPP
 #define MESHHPP
 
+#include <iostream>
 #include <string>
 #include <map>
 #include "myTexture.hpp"

@@ -71,41 +71,56 @@ void player::checkKeys()
     }
 }
 
-void player::move(const fence& fen)
+void player::move(char map[25][25])
 {
     checkKeys();
-    if (_keys["upArrow"])
+    if (_keys["upArrow"] && isMovable('u', map))
     {
-        _hitbox.y -= _speed;
-        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
-            _position.y -= _speed;
-        else
-            _hitbox.y += _speed;
+        _position.y -= _speed;
     }
-    if (_keys["leftArrow"])
+    if (_keys["leftArrow"] && isMovable('l', map))
     {
-        _hitbox.x -= _speed;
-        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
-            _position.x -= _speed;
-        else
-            _hitbox.x += _speed;
+        _position.x -= _speed;
     }
-    if (_keys["downArrow"])
+    if (_keys["downArrow"] && isMovable('d', map))
     {
-        _hitbox.y += _speed;
-        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
-            _position.y += _speed;
-        else
-            _hitbox.y -= _speed;
+        _position.y += _speed;
     }
-    if (_keys["rightArrow"])
-    {
-        _hitbox.x += _speed;
-        if (!CheckCollisionRecs(_hitbox, fen.getHitbox()))
-            _position.x += _speed;
-        else
-            _hitbox.x -= _speed;        
+    if (_keys["rightArrow"] && isMovable('r', map))
+    {   
+        _position.x += _speed;
     }
     if (_keys["space"]);
         // _speed *= 2;
+}
+
+bool player::isMovable(char key, const char map[25][25])
+{
+    Vector2 lefttop = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y};
+    Vector2 righttop = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y};
+    Vector2 leftbottom = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y + getHitbox().height};
+    Vector2 rightbottom = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y + getHitbox().height};
+
+    switch (key)
+    {
+    case 'u':
+        if (map[(int)(lefttop.y - _speed)  / 32][(int)lefttop.x / 32] == '0' && map[(int)righttop.y / 32][(int)(righttop.x - _speed) / 32] == '0')
+            return true;
+        break;
+    case 'l':
+        if (map[(int)lefttop.y / 32][(int)(lefttop.x - _speed) / 32] == '0' && map[(int)leftbottom.y / 32][(int)(leftbottom.x - _speed) / 32] == '0')
+            return true;
+        break;
+    case 'd':
+        if (map[(int)(leftbottom.y + _speed) / 32][(int)leftbottom.x / 32] == '0' && map[(int)(rightbottom.y + _speed) / 32][(int)(rightbottom.x) / 32] == '0')
+            return true;
+        break;
+    case 'r':
+        if (map[(int)righttop.y / 32][(int)(righttop.x + _speed) / 32] == '0' && map[(int)rightbottom.y / 32][(int)(rightbottom.x + _speed) / 32] == '0')
+            return true;
+        break;
+    default:
+        break;
+    }
+    return false;
 }

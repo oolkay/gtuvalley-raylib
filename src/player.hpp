@@ -26,7 +26,8 @@ class player : public mesh
         int getLevel() const {return _level;}
         bool getKey(const string &key) const {return _keys.at(key);}
         void checkKeys();
-        void move(const fence& fen);
+        bool isMovable(char key, const char map[25][25]);
+        void move(char map[25][25]);
         /*
         TODO:
                 TAKE DAMAGE
