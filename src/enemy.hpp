@@ -23,10 +23,12 @@ class Enemy : public mesh
         unsigned int getRange() const { return _range; };
         unsigned int getAttackSpeed() const { return _attackSpeed; };
         unsigned int getAttackRange() const { return _attackRange; };
-        void move(const player& pl);
+        void move(const player& pl, char map[25][25]);
+        bool isMovable(char key, const char map[25][25]);
         void attack();
         void die();
         void takeDamage(unsigned int damage);
+
     private:
         unsigned int _health;
         unsigned int _damage;

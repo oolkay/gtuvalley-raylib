@@ -101,10 +101,15 @@ bool player::isMovable(char key, const char map[25][25])
     Vector2 leftbottom = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y + getHitbox().height};
     Vector2 rightbottom = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y + getHitbox().height};
 
+    DrawRectangle(lefttop.x, lefttop.y,20,20,RED);
+    DrawRectangle(righttop.x, righttop.y,20,20,RED);
+    DrawRectangle(leftbottom.x, leftbottom.y,20,20,RED);
+    DrawRectangle(rightbottom.x, rightbottom.y,20,20,RED);
+
     switch (key)
     {
     case 'u':
-        if (map[(int)(lefttop.y - _speed)  / 32][(int)lefttop.x / 32] == '0' && map[(int)righttop.y / 32][(int)(righttop.x - _speed) / 32] == '0')
+        if (map[(int)(lefttop.y - _speed)/ 32][(int)lefttop.x / 32] == '0' && map[(int)(righttop.y - _speed) / 32][(int)(righttop.x) / 32] == '0')
             return true;
         break;
     case 'l':

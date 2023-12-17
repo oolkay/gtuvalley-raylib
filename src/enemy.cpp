@@ -65,16 +65,59 @@ void Enemy::setAttackRange(unsigned int attackRange)
     this->_attackRange = attackRange;
 }
 
-void Enemy::move(const player& pl)
+bool Enemy::isMovable(char key, const char map[25][25])
 {
-    if (pl.getPosition().x > _position.x + _speed*20 )
-        _position.x += _speed;
-    else if (pl.getPosition().x < _position.x - _speed*20)
-        _position.x -= _speed;
-    if (pl.getPosition().y > _position.y + _speed*20)
-        _position.y += _speed;
-    else if (pl.getPosition().y < _position.y - _speed*20)
-        _position.y -= _speed;
+    Vector2 lefttop = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y};
+    Vector2 righttop = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y};
+    Vector2 leftbottom = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y + getHitbox().height};
+    Vector2 rightbottom = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y + getHitbox().height};
+
+    switch (key)
+    {
+    case 'u':
+        if (map[(int)(lefttop.y - _speed)  / 32][(int)lefttop.x / 32] == '0' && map[(int)(righttop.y - _speed) / 32][(int)(righttop.x) / 32] == '0')
+            return true;
+        break;
+    case 'l':
+        if (map[(int)lefttop.y / 32][(int)(lefttop.x - _speed) / 32] == '0' && map[(int)leftbottom.y / 32][(int)(leftbottom.x - _speed) / 32] == '0')
+            return true;
+        break;
+    case 'd':
+        if (map[(int)(leftbottom.y + _speed) / 32][(int)leftbottom.x / 32] == '0' && map[(int)(rightbottom.y + _speed) / 32][(int)(rightbottom.x) / 32] == '0')
+            return true;
+        break;
+    case 'r':
+        if (map[(int)righttop.y / 32][(int)(righttop.x + _speed) / 32] == '0' && map[(int)rightbottom.y / 32][(int)(rightbottom.x + _speed) / 32] == '0')
+            return true;
+        break;
+    default:
+        break;
+    }
+    return false;
+}
+
+void Enemy::move(const player& pl, char map[25][25])
+{
+    if (pl.getPosition().x > _position.x)
+    {
+        if (isMovable('r', map))
+            _position.x += _speed;
+    }
+    else if (pl.getPosition().x < _position.x)
+    {
+        if (isMovable('l', map))
+            _position.x -= _speed;
+    }
+    if (pl.getPosition().y > _position.y)
+    {
+        if (isMovable('d', map))
+            _position.y += _speed;
+    }
+    else if (pl.getPosition().y < _position.y)
+    {
+        if (isMovable('u', map))
+            _position.y -= _speed;
+    }
 }
 
 void Enemy::attack()
@@ -84,7 +127,6 @@ void Enemy::attack()
 
 void Enemy::die()
 {
-
 }
 
 void Enemy::takeDamage(unsigned int damage)

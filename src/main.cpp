@@ -25,10 +25,10 @@ void renderMap(char map[25][25]){
     for(int i = 0; i < 25; i++){
         for(int j = 0; j < 25; j++){
             if(map[i][j] == '0'){
-                DrawRectangle(i*32, j*32, 32, 32, GREEN);
+                DrawRectangle(j*32, i*32, 32, 32, GREEN);
             }
             else if(map[i][j] == 'X'){
-                DrawRectangle(i*32, j*32, 32, 32, BLUE);
+                DrawRectangle(j*32, i*32, 32, 32, BLUE);
             }
         }
     }
@@ -58,7 +58,7 @@ int main(void)
     //-------------------------------------------------------------------------------------
 
     int screenWidth = 800;
-    int screenHeight = 450;
+    int screenHeight = 800;
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "csgo");
     Texture2D floor = LoadTexture("assets/grass.png");
@@ -83,11 +83,11 @@ int main(void)
     // pl.addTexture("walkD", (Vector2){6, 1}, LoadTexture("sprites/characters/walkD.png"), 40, 40);
     // pl.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
     
-    pl.addTexture("walkL", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 40, 40);
-    pl.addTexture("walkR", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 40, 40); // 1 ,6 here is the row and column count of frames in the spritesheet
-    pl.addTexture("walkU", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 40, 40);
-    pl.addTexture("walkD", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 40, 40);
-    pl.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 40, 40);
+    pl.addTexture("walkL", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
+    pl.addTexture("walkR", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32); // 1 ,6 here is the row and column count of frames in the spritesheet
+    pl.addTexture("walkU", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
+    pl.addTexture("walkD", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
+    pl.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
     pl.setSpeed(2);
     pl.setPosition((Vector2){ 128, 128 });
     pl.setHitbox((Rectangle){ 4, 4, 24, 24});
@@ -95,11 +95,23 @@ int main(void)
     // fence fen;
     // fen.setPosition((Vector2){ 480, 360 });
     // fen.setHitbox((Rectangle){ 480.7f, 362.5f, 11.5f, 10 });
-    // fen.addTexture(string("default"), (Vector2){ 1, 1 }, LoadTexture("assets/fences/fencesingle.png"), 40, 40);
+    // fen.addTexture(string("default"), (Vector2){ 1, 1 }, LoadTexture("assets/fences/fencesingle.png"), 32, 32);
     Enemy en;
-    // en.addTexture("stand", (Vector2){6, 1}, LoadTexture("sprites/characters/stand.png"), 40, 40);
+    en.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
     en.setPosition((Vector2){ 256, 128 });
     en.setHitbox((Rectangle){ 4, 4, 24, 24});
+    Enemy en1;
+    en1.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+    en1.setPosition((Vector2){ 400, 500 });
+    en1.setHitbox((Rectangle){ 4, 4, 24, 24});
+    Enemy en2;
+    en2.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+    en2.setPosition((Vector2){ 256, 500 });
+    en2.setHitbox((Rectangle){ 4, 4, 24, 24});
+    Enemy en3;
+    en3.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+    en3.setPosition((Vector2){ 400, 128 });
+    en3.setHitbox((Rectangle){ 4, 4, 24, 24});
 
 
     //-------------------------------------------------------------------------------------
@@ -172,14 +184,22 @@ int main(void)
             renderMap(map);
             pl.drawRec(pl.getCurrentTexture());
             DrawRectangle(pl.getPositionX()+pl.getHitbox().x, pl.getPositionY()+pl.getHitbox().y, pl.getHitbox().width, pl.getHitbox().height, Fade(LIGHTGRAY, 0.5f));
+    
             std::cout << pl.getPosition().x << " " << pl.getPosition().y << std::endl;
             // BeginMode2D(camera);
             //     pl.drawRec(pl.getCurrentTexture());
             //     fen.drawRec("default");
             //     // DrawRectangleRec(pl.getHitbox(), Fade(LIGHTGRAY, 0.5f));
             //     // DrawRectangleRec(en.getHitbox(), Fade(RED, 0.5f));
-            //     // en.drawRec("stand");
-            //     // en.move(pl);
+            en.drawRec("stand");
+            en.move(pl, map);
+            en1.drawRec("stand");
+            en1.move(pl, map);
+            en2.drawRec("stand");
+            en2.move(pl, map);
+            en3.drawRec("stand");
+            en3.move(pl, map);
+            
             // EndMode2D();
             drawHuds(bar);
         EndDrawing();
