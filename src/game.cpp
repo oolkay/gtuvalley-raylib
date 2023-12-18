@@ -3,27 +3,28 @@
 
 // map 600 600 olacak
 #ifndef SIZE
-#define SIZE 800
+#define SIZE 128
 #endif
 
 void Game::initMap()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < SIZE; i++)
 	{
 		vector<mesh *> tmp;
-		for (int j = 0; j < 25; j++)
+		for (int j = 0; j < SIZE; j++)
 		{
 			tmp.push_back(new mesh);
 		}
 		map.push_back(tmp);
 	}
+
 }
 
 void Game::renderMap() const
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < (SIZE); i++)
 	{
-		for (int j = 0; j < 25; j++)
+		for (int j = 0; j < (SIZE); j++)
 		{
 			if (map[i][j]->getName() == "Default")
 			{
@@ -37,7 +38,7 @@ void Game::renderMap() const
 	}
 }
 
-Game::Game() : width(SIZE), height(SIZE), pl(this)
+Game::Game() : width(SIZE * 32), height(SIZE * 32), pl(this)
 {
 	initMap();
 	initTextures();
@@ -46,6 +47,8 @@ Game::Game() : width(SIZE), height(SIZE), pl(this)
 void Game::drawHuds() const
 {
 	DrawText("GTU VALLEY", 640, 10, 20, RED);
+	DrawRectangle(640, 30, 50, 100, Fade(BLACK, 0.5f));
+	DrawFPS(640, 30);
 	DrawRectangle(10, 10, 250, 113, Fade(SKYBLUE, 0.5f));
 	DrawRectangleLines(10, 10, 250, 113, BLUE);
 	DrawText("Free 2d camera controls:", 20, 20, 10, BLACK);
