@@ -1,7 +1,8 @@
 #include "fence.hpp"
 
-fence::fence()
+fence::fence(): mesh()
 {
+    _name = "fence";
 }
 
 fence::~fence()

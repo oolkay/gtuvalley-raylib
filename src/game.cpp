@@ -17,6 +17,7 @@ void Game::initMap()
 		}
 		map.push_back(tmp);
 	}
+	map[20][20] = new fence();
 
 }
 
@@ -30,9 +31,9 @@ void Game::renderMap() const
 			{
 				DrawRectangle(j * 32, i * 32, 32, 32, GREEN); // meshinkini kullan
 			}
-			else
+			else if (map[i][j]->getName() == "fence")
 			{
-				map[i][j]->drawRec(map[i][j]->getCurrentTexture());
+				DrawRectangle(j * 32, i * 32, 32, 32, PURPLE); // meshinkini kullan
 			}
 		}
 	}
@@ -95,8 +96,13 @@ void Game::run()
 		//----------------------------------------------------------------------------------
 		// Player movement
 		// pl.move(fen);
-		// Camera target follows player
-		// camera.target = pl.getPosition();
+		Camera2D camera = { 0 };
+    	camera.target = (Vector2){ pl.getPositionX() + 20.0f, pl.getPositionY() + 20.0f };
+    	camera.offset = (Vector2){ GetScreenHeight()/2.0f, GetScreenHeight()/2.0f };
+    	camera.rotation = 0.0f;
+    	camera.zoom = 1.0f;
+
+
 
 		// Camera rotation controls
 		// if (IsKeyDown(KEY_A)) camera.rotation--;
@@ -109,8 +115,8 @@ void Game::run()
 		// // Camera zoom controls
 		// camera.zoom += ((float)GetMouseWheelMove()*0.05f);
 
-		// if (camera.zoom > 3.0f) camera.zoom = 3.0f;
-		// else if (camera.zoom < 0.1f) camera.zoom = 0.1f;
+		if (camera.zoom > 3.0f) camera.zoom = 3.0f;
+		else if (camera.zoom < 0.1f) camera.zoom = 0.1f;
 
 		// // Camera reset (zoom and rotation)
 		// if (IsKeyPressed(KEY_R))
@@ -125,14 +131,29 @@ void Game::run()
 		//    numTilesX = screenWidth / floor.width ;
 		//    numTilesY = screenHeight / floor.height;
 		//}
-
+		int pX;
+		int pY;
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+		{
+			Vector2 mousePos = GetMousePosition();
+			pl.setPositionX(mousePos.x);
+			pl.setPositionY(mousePos.y);
+		}
+		else if  (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+		{
+			Vector2 mousePos = GetMousePosition();
+			pX = mousePos.x / 32;
+			pY = mousePos.y / 32;
+			map[pY][pX] = new fence();
+		}
+		
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 
 		ClearBackground(RAYWHITE);
-		renderMap();
-		pl.drawRec(pl.getCurrentTexture());
+			renderMap();
+			pl.drawRec(pl.getCurrentTexture());
 		// BeginMode2D(camera);
 		//     pl.drawRec(pl.getCurrentTexture());
 		//     fen.drawRec("default");
@@ -149,6 +170,14 @@ void Game::run()
 
 		// EndMode2D();
 		drawHuds();
+		if (IsKeyDown(KEY_SPACE))
+		{
+			Vector2 mousePos = GetMousePosition();
+			pX = mousePos.x / 32;
+			pY = mousePos.y / 32;
+			DrawRectangle(pX * 32, pY * 32, 32, 32, Fade(GRAY, 0.5f));
+			DrawText("BURDA", pX*32, pY*32, 20, RED);
+		}
 		EndDrawing();
 		//----------------------------------------------------------------------------------
 	}
