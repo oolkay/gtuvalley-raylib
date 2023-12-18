@@ -1,10 +1,38 @@
 #include "game.hpp"
 
-
 // map 600 600 olacak
 #ifndef SIZE
 #define SIZE 128
 #endif
+
+void Game::fillEnemy()
+{
+	// map[5][4] = new Enemy("enemy", Vector2{4 * 32, 5 * 32}, (Rectangle){4, 4, 24, 24});
+	// Enemy *en = dynamic_cast<Enemy *>(map[5][4]);
+	// en->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+	// map[7][9] = new Enemy("enemy", Vector2{9 * 32, 7 * 32}, (Rectangle){4, 4, 24, 24});
+	// en = dynamic_cast<Enemy *>(map[7][9]);
+	// en->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+	// map[11][3] = new Enemy("enemy", Vector2{3 * 32, 11 * 32}, (Rectangle){4, 4, 24, 24});
+	// en = dynamic_cast<Enemy *>(map[11][3]);
+	// en->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+
+
+	//enemies[0] = (dynamic_cast<Enemy *>(map[5][4]));
+	//enemies.push_back(dynamic_cast<Enemy *>(map[5][4]));
+	//enemies.push_back(dynamic_cast<Enemy *>(map[7][9]));
+	//enemies.push_back(dynamic_cast<Enemy *>(map[11][3]));
+	enemies.push_back(new Enemy("enemy", Vector2{4 * 32, 5 * 32}, (Rectangle){4, 4, 24, 24}));
+	enemies[0]->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+	enemies.push_back(new Enemy("enemy", Vector2{9 * 32, 7 * 32}, (Rectangle){4, 4, 24, 24}));
+	enemies[1]->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+	enemies.push_back(new Enemy("enemy", Vector2{3 * 32, 11 * 32}, (Rectangle){4, 4, 24, 24}));
+	enemies[2]->addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/ysa.png"), 32, 32);
+
+	//std::cout << (dynamic_cast<Enemy *>(map[5][4])) << std::endl;
+	//std::cout << (dynamic_cast<Enemy *>(map[5][4])) << std::endl;
+	//std::cout << &enemies[0] << std::endl;
+}
 
 void Game::initMap()
 {
@@ -13,12 +41,12 @@ void Game::initMap()
 		vector<mesh *> tmp;
 		for (int j = 0; j < SIZE; j++)
 		{
-			tmp.push_back(new mesh);
+			tmp.push_back(new mesh());
 		}
 		map.push_back(tmp);
 	}
+	fillEnemy();
 	map[20][20] = new fence();
-
 }
 
 void Game::renderMap() const
@@ -27,11 +55,8 @@ void Game::renderMap() const
 	{
 		for (int j = 0; j < (SIZE); j++)
 		{
-			if (map[i][j]->getName() == "Default")
-			{
-				DrawRectangle(j * 32, i * 32, 32, 32, GREEN); // meshinkini kullan
-			}
-			else if (map[i][j]->getName() == "fence")
+			DrawRectangle(j * 32, i * 32, 32, 32, GREEN); // meshinkini kullan
+			if (map[i][j]->getName() == "fence")
 			{
 				DrawRectangle(j * 32, i * 32, 32, 32, PURPLE); // meshinkini kullan
 			}
@@ -39,7 +64,7 @@ void Game::renderMap() const
 	}
 }
 
-Game::Game() : width(SIZE * 32), height(SIZE * 32), pl(this)
+Game::Game() : width(SIZE * 32), height(SIZE * 32), pl(this), enemies({})
 {
 	initMap();
 	initTextures();
@@ -47,8 +72,8 @@ Game::Game() : width(SIZE * 32), height(SIZE * 32), pl(this)
 
 void Game::drawHuds() const
 {
-	DrawText("GTU VALLEY", 640, 10, 20, RED);
-	DrawRectangle(640, 30, 50, 100, Fade(BLACK, 0.5f));
+	DrawText("GTU VALLEY", GetScreenWidth() - 140, 10, 20, RED);
+	DrawRectangle(640, 28, 80, 30, Fade(BLACK, 0.5f));
 	DrawFPS(640, 30);
 	DrawRectangle(10, 10, 250, 113, Fade(SKYBLUE, 0.5f));
 	DrawRectangleLines(10, 10, 250, 113, BLUE);
@@ -96,13 +121,8 @@ void Game::run()
 		//----------------------------------------------------------------------------------
 		// Player movement
 		// pl.move(fen);
-		Camera2D camera = { 0 };
-    	camera.target = (Vector2){ pl.getPositionX() + 20.0f, pl.getPositionY() + 20.0f };
-    	camera.offset = (Vector2){ GetScreenHeight()/2.0f, GetScreenHeight()/2.0f };
-    	camera.rotation = 0.0f;
-    	camera.zoom = 1.0f;
-
-
+		// Camera target follows player
+		// camera.target = pl.getPosition();
 
 		// Camera rotation controls
 		// if (IsKeyDown(KEY_A)) camera.rotation--;
@@ -115,8 +135,8 @@ void Game::run()
 		// // Camera zoom controls
 		// camera.zoom += ((float)GetMouseWheelMove()*0.05f);
 
-		if (camera.zoom > 3.0f) camera.zoom = 3.0f;
-		else if (camera.zoom < 0.1f) camera.zoom = 0.1f;
+		// if (camera.zoom > 3.0f) camera.zoom = 3.0f;
+		// else if (camera.zoom < 0.1f) camera.zoom = 0.1f;
 
 		// // Camera reset (zoom and rotation)
 		// if (IsKeyPressed(KEY_R))
@@ -146,14 +166,15 @@ void Game::run()
 			pY = mousePos.y / 32;
 			map[pY][pX] = new fence();
 		}
-		
+
+
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 
 		ClearBackground(RAYWHITE);
-			renderMap();
-			pl.drawRec(pl.getCurrentTexture());
+		renderMap();
+		pl.drawRec(pl.getCurrentTexture());
 		// BeginMode2D(camera);
 		//     pl.drawRec(pl.getCurrentTexture());
 		//     fen.drawRec("default");
@@ -169,6 +190,11 @@ void Game::run()
 		// en3.move(pl, map);
 
 		// EndMode2D();
+		for (auto& en : enemies)
+		{
+			en->drawRec("stand");
+			en->move(pl, map);
+		}
 		drawHuds();
 		if (IsKeyDown(KEY_SPACE))
 		{

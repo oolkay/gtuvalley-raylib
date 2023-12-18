@@ -8,9 +8,10 @@ class Enemy : public mesh
 {
     public:
         Enemy();
-        Enemy(const Enemy& other);
+        Enemy(const string &name, const Vector2 &position, const Rectangle &hitbox);
+        Enemy(const Enemy &other);
         Enemy& operator=(const Enemy& other);
-        ~Enemy();
+        virtual ~Enemy();
         void setHealth(unsigned int health);
         void setDamage(unsigned int damage);
         void setSpeed(unsigned int speed);
@@ -23,12 +24,14 @@ class Enemy : public mesh
         unsigned int getRange() const { return _range; };
         unsigned int getAttackSpeed() const { return _attackSpeed; };
         unsigned int getAttackRange() const { return _attackRange; };
-        void move(const player& pl, char map[25][25]);
-        bool isMovable(char key, const char map[25][25]);
+        void move(const player &pl, vector<vector<mesh *>> &map);
+        bool isMovable(char key, vector<vector<mesh *>> &map);
         void attack();
         void die();
         void takeDamage(unsigned int damage);
-
+        bool    operator==(const Enemy &rhs) const {
+            return (rhs.getPositionX() == getPositionX() && rhs.getPositionY() == getPositionY());
+        }
     private:
         unsigned int _health;
         unsigned int _damage;

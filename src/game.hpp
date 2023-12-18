@@ -3,10 +3,9 @@
 
 #include <vector>
 #include "player.hpp"
-#include "mesh.hpp"
 #include "enemy.hpp"
 
-class enemy;
+class Enemy;
 class player;
 class mesh;
 using std::vector;
@@ -18,9 +17,12 @@ class Game {
 		void	initMap();
 		void	renderMap() const ;
 		void	drawHuds() const ;
+		void	fillEnemy();
 		void	initTextures();
 	private:
 		vector<vector<mesh *> >	map;
+		vector<Enemy *>			enemies;
+
 		const int				width;
 		const int				height;
 		player					pl;
