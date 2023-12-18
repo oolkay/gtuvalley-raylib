@@ -49,7 +49,7 @@ void mesh::setHitbox(const Rectangle &hitbox)
 
 void mesh::drawRec(const string &key)
 {
-    std::cout << "iki kilo brıaktım";
+    //std::cout << "iki kilo brıaktım";
     if (_textures[key].getCurrentFrame() % 10 == 0)
         _textures[key].updateRect();
     DrawTextureRec(_textures[key].getTexture(), _textures[key].getRect(), _position, WHITE);

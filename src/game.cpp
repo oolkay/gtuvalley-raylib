@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+
+// map 600 600 olacak
 #ifndef SIZE
 #define SIZE 800
 #endif
@@ -38,6 +40,7 @@ void Game::renderMap() const
 Game::Game() : width(SIZE), height(SIZE), pl(this)
 {
 	initMap();
+	initTextures();
 }
 
 void Game::drawHuds() const
@@ -51,8 +54,8 @@ void Game::drawHuds() const
 	DrawText("- A / S to Rotate", 40, 80, 10, DARKGRAY);
 	DrawText("- R to reset Zoom and Rotation", 40, 100, 10, DARKGRAY);
 
-	DrawRectangleLines(30, 350, 170, 83, BLACK);
-	DrawRectangle(30, 350, 170, 83, Fade(DARKGRAY, 0.5f));
+	// DrawRectangleLines(30, 350, 170, 83, BLACK);
+	// DrawRectangle(30, 350, 170, 83, Fade(DARKGRAY, 0.5f));
 	// DrawTexture(bar, -10, 320, WHITE); // can barı
 }
 
@@ -76,6 +79,7 @@ void Game::run()
 	// Main game loop
 	while (!WindowShouldClose()) // Detect window close button or ESC key
 	{
+
 		// if(IsWindowResized()){
 		//     screenHeight = GetScreenHeight();
 		//     screenWidth = GetScreenWidth();
@@ -126,9 +130,6 @@ void Game::run()
 		ClearBackground(RAYWHITE);
 		renderMap();
 		pl.drawRec(pl.getCurrentTexture());
-		DrawRectangle(pl.getPositionX() + pl.getHitbox().x, pl.getPositionY() + pl.getHitbox().y, pl.getHitbox().width, pl.getHitbox().height, Fade(LIGHTGRAY, 0.5f));
-
-		std::cout << pl.getPosition().x << " " << pl.getPosition().y << std::endl;
 		// BeginMode2D(camera);
 		//     pl.drawRec(pl.getCurrentTexture());
 		//     fen.drawRec("default");
@@ -144,7 +145,7 @@ void Game::run()
 		// en3.move(pl, map);
 
 		// EndMode2D();
-		// drawHuds(bar);
+		drawHuds();
 		EndDrawing();
 		//----------------------------------------------------------------------------------
 	}

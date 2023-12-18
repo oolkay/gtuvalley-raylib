@@ -11,44 +11,6 @@
 
 using namespace std;
 
-void fillMap(char map[25][25]){
-    for(int i = 0; i < 25; i++){
-        for(int j = 0; j < 25; j++){
-            map[i][j] = '0';
-        }
-    }
-    map[8][8] = 'X';
-    map[8][6] = 'X';
-    map[6][8] = 'X';
-}
-
-void renderMap(char map[25][25]){
-    for(int i = 0; i < 25; i++){
-        for(int j = 0; j < 25; j++){
-            if(map[i][j] == '0'){
-                DrawRectangle(j*32, i*32, 32, 32, GREEN);
-            }
-            else if(map[i][j] == 'X'){
-                DrawRectangle(j*32, i*32, 32, 32, BLUE);
-            }
-        }
-    }
-}
-void drawHuds(const Texture2D& bar)
-{
-    DrawText("GTU VALLEY", 640, 10, 20, RED);
-    DrawRectangle( 10, 10, 250, 113, Fade(SKYBLUE, 0.5f));
-    DrawRectangleLines( 10, 10, 250, 113, BLUE);
-    DrawText("Free 2d camera controls:", 20, 20, 10, BLACK);
-    DrawText("- Right/Left to move Offset", 40, 40, 10, DARKGRAY);
-    DrawText("- Mouse Wheel to Zoom in-out", 40, 60, 10, DARKGRAY);
-    DrawText("- A / S to Rotate", 40, 80, 10, DARKGRAY);
-    DrawText("- R to reset Zoom and Rotation", 40, 100, 10, DARKGRAY);
-
-    DrawRectangleLines( 30, 350, 170, 83, BLACK);
-    DrawRectangle( 30, 350, 170, 83, Fade(DARKGRAY, 0.5f));
-    DrawTexture(bar, -10, 320, WHITE);
-}
 
 //------------------------------------------------------------------------------------
 // Program main entry point

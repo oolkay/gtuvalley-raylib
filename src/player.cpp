@@ -17,6 +17,7 @@ player::player(Game *pG) : mesh(),
     setSpeed(2);
     setPosition((Vector2){ 128, 128 });
     setHitbox((Rectangle){ 4, 4, 24, 24});
+    game = pG;
 }
 
 // kullanmazsak sil
