@@ -1,8 +1,9 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#pragma once
 
 #include "mesh.hpp"
 #include "fence.hpp"
+
+class Game;
 
 
 class player : public mesh
@@ -13,8 +14,10 @@ class player : public mesh
         int _speed;
         int _level;
         map<string, bool> _keys;
+        Game    *game;
     public:
         player();
+        player(Game *pG);
         player(const string& name, const Vector2& position, const Rectangle& hitbox, int& health, const int& attack, const int& speed, const int& level);
         void setHealth(const int& health);
         void setAttack(const int& attack);
@@ -26,8 +29,8 @@ class player : public mesh
         int getLevel() const {return _level;}
         bool getKey(const string &key) const {return _keys.at(key);}
         void checkKeys();
-        bool isMovable(char key, const char map[25][25]);
-        void move(char map[25][25]);
+        bool isMovable(char key, vector<vector<mesh *> > &map);
+        void move(vector<vector<mesh *> > &map);
         /*
         TODO:
                 TAKE DAMAGE
@@ -37,4 +40,3 @@ class player : public mesh
         */
 };
 
-#endif

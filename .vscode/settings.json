@@ -20,6 +20,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iosfwd": "cpp",
+        "map": "cpp"
     }
 }
