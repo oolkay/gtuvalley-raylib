@@ -6,22 +6,23 @@
 
 void Game::initMap()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 600; i++)
 	{
 		vector<mesh *> tmp;
-		for (int j = 0; j < 25; j++)
+		for (int j = 0; j < 600; j++)
 		{
 			tmp.push_back(new mesh);
 		}
 		map.push_back(tmp);
 	}
+
 }
 
 void Game::renderMap() const
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 600; i++)
 	{
-		for (int j = 0; j < 25; j++)
+		for (int j = 0; j < 600; j++)
 		{
 			if (map[i][j]->getName() == "Default")
 			{
@@ -38,6 +39,8 @@ void Game::renderMap() const
 Game::Game() : width(SIZE), height(SIZE), pl(this)
 {
 	initMap();
+	initTextures();
+	
 }
 
 void Game::drawHuds() const
