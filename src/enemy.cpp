@@ -84,54 +84,60 @@ bool Enemy::isMovable(char key, vector<vector<mesh *>> &map)
     Vector2 leftbottom = {getPosition().x + getHitbox().x, getPosition().y + getHitbox().y + getHitbox().height};
     Vector2 rightbottom = {getPosition().x + getHitbox().x + getHitbox().width, getPosition().y + getHitbox().y + getHitbox().height};
 
-    mesh *uptop = map[(int)(lefttop.y - _speed) / 32][(int)lefttop.x / 32];
-    mesh *upbottom = map[(int)(leftbottom.y - _speed) / 32][(int)leftbottom.x / 32];
-    mesh *lefttopm = map[(int)lefttop.y / 32][(int)(lefttop.x - _speed) / 32];
-    mesh *leftbottomm = map[(int)leftbottom.y / 32][(int)(leftbottom.x - _speed) / 32];
-    mesh *righttopm = map[(int)righttop.y / 32][(int)(righttop.x + _speed) / 32];
-    mesh *rightbottomm = map[(int)rightbottom.y / 32][(int)(rightbottom.x + _speed) / 32];
-    mesh *downbottom = map[(int)(leftbottom.y + _speed) / 32][(int)leftbottom.x / 32];
-    mesh *downtop = map[(int)(rightbottom.y + _speed) / 32][(int)(rightbottom.x) / 32];
+
+    mesh *leftCorner;
+    mesh *rightCorner;
+    mesh *upCorner;
+    mesh *downCorner;
+
     switch (key)
     {
     case 'u':
-        if (uptop->getName() == "Default" && upbottom->getName() == "Default")
+        leftCorner = map[(int)(lefttop.y - _speed)/ 32][(int)lefttop.x / 32];
+        rightCorner = map[(int)(righttop.y - _speed) / 32][(int)(righttop.x) / 32];
+        if (leftCorner->getName() == "Default" && rightCorner->getName() == "Default")
             return true;
-        else if (uptop->getName() == "enemy" && uptop->getPositionX() == getPositionX()
-                                && uptop->getPositionY() == getPositionY())
+        else if (leftCorner->getName() == "enemy" && leftCorner->getPositionX() == getPositionX()
+                                && leftCorner->getPositionY() == getPositionY())
             return true;
-        else if (upbottom->getName() == "enemy" && upbottom->getPositionX() == getPositionX()
-                                && upbottom->getPositionY() == getPositionY())
+        else if (rightCorner->getName() == "enemy" && rightCorner->getPositionX() == getPositionX()
+                                && rightCorner->getPositionY() == getPositionY())
             return true;
         break;
     case 'l':
-        if (lefttopm->getName() == "Default" && leftbottomm->getName() == "Default")
+        upCorner = map[(int)lefttop.y / 32][(int)(lefttop.x - _speed) / 32];
+        downCorner = map[(int)leftbottom.y / 32][(int)(leftbottom.x - _speed) / 32];
+        if (upCorner->getName() == "Default" && downCorner->getName() == "Default")
             return true;
-        else if (lefttopm->getName() == "enemy" && lefttopm->getPositionX() == getPositionX()
-                                && lefttopm->getPositionY() == getPositionY())
+        else if (upCorner->getName() == "enemy" && upCorner->getPositionX() == getPositionX()
+                                && upCorner->getPositionY() == getPositionY())
             return true;
-        else if (leftbottomm->getName() == "enemy" && leftbottomm->getPositionX() == getPositionX()
-                                && leftbottomm->getPositionY() == getPositionY())
+        else if  (downCorner->getName() == "enemy" && downCorner->getPositionX() == getPositionX()
+                                && downCorner->getPositionY() == getPositionY())
             return true;
         break;
     case 'r':
-        if (righttopm->getName() == "Default" && rightbottomm->getName() == "Default")
+        upCorner = map[(int)righttop.y / 32][(int)(righttop.x + _speed) / 32];
+        downCorner = map[(int)rightbottom.y / 32][(int)(rightbottom.x + _speed) / 32];
+        if (upCorner->getName() == "Default" && downCorner->getName() == "Default")
             return true;
-        else if (righttopm->getName() == "enemy" && righttopm->getPositionX() == getPositionX()
-                                && righttopm->getPositionY() == getPositionY())
+        else if (upCorner->getName() == "enemy" && upCorner->getPositionX() == getPositionX()
+                                && upCorner->getPositionY() == getPositionY())
             return true;
-        else if (rightbottomm->getName() == "enemy" && rightbottomm->getPositionX() == getPositionX()
-                                && rightbottomm->getPositionY() == getPositionY())
+        else if (downCorner->getName() == "enemy" && downCorner->getPositionX() == getPositionX()
+                                && downCorner->getPositionY() == getPositionY())
             return true;
         break;
     case 'd':
-        if (downbottom->getName() == "Default" && downtop->getName() == "Default")
+        leftCorner = map[(int)(leftbottom.y + _speed) / 32][(int)leftbottom.x / 32];
+        rightCorner = map[(int)(rightbottom.y + _speed) / 32][(int)(rightbottom.x) / 32];
+        if (leftCorner->getName() == "Default" && rightCorner->getName() == "Default")
             return true;
-        else if (downbottom->getName() == "enemy" && downbottom->getPositionX() == getPositionX()
-                                && downbottom->getPositionY() == getPositionY())
+        else if (leftCorner->getName() == "enemy" && leftCorner->getPositionX() == getPositionX()
+                                && leftCorner->getPositionY() == getPositionY())
             return true;
-        else if (downtop->getName() == "enemy" && downtop->getPositionX() == getPositionX()
-                                && downtop->getPositionY() == getPositionY())
+        else if (rightCorner->getName() == "enemy" && rightCorner->getPositionX() == getPositionX()
+                                && rightCorner->getPositionY() == getPositionY())
             return true;
         break;
     default:
@@ -170,6 +176,11 @@ void Enemy::move(const player &pl, vector<vector<mesh *>> &map)
             _position.y -= _speed;
         }
     }
+    DrawRectangle((int)((_position.x + 16) / 32) * 32, (int)((_position.y + 16) / 32)*32, 32, 32, Fade(LIGHTGRAY, 0.5f));
+    // DrawRectangleLines((int)(_position.x / 32) * 32 + 32, (int)(_position.y / 32)*32, 32, 32, BLACK);
+    // DrawRectangleLines((int)(_position.x / 32) * 32, (int)(_position.y / 32)*32 + 32, 32, 32, BLACK);
+    // DrawRectangleLines((int)(_position.x / 32) * 32 + 32, (int)(_position.y / 32)*32 + 32, 32, 32, BLACK);
+
 }
 
 void Enemy::attack()

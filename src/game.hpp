@@ -22,7 +22,7 @@ class Game {
 	private:
 		vector<vector<mesh *> >	map;
 		vector<Enemy *>			enemies;
-
+		mesh					ground;
 		const int				width;
 		const int				height;
 		player					pl;

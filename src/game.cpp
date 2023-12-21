@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include <unistd.h>
 // map 600 600 olacak
 #ifndef SIZE
 #define SIZE 128
@@ -51,11 +51,12 @@ void Game::initMap()
 
 void Game::renderMap() const
 {
+	Texture2D texture = LoadTexture("sprites/ground.png");
 	for (int i = 0; i < (SIZE); i++)
 	{
 		for (int j = 0; j < (SIZE); j++)
 		{
-			DrawRectangle(j * 32, i * 32, 32, 32, GREEN); // meshinkini kullan
+			DrawTexture(texture, j * 32, i * 32, WHITE);
 			if (map[i][j]->getName() == "fence")
 			{
 				DrawRectangle(j * 32, i * 32, 32, 32, PURPLE); // meshinkini kullan
@@ -95,6 +96,7 @@ void Game::initTextures()
 	pl.addTexture("walkU", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
 	pl.addTexture("walkD", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
 	pl.addTexture("stand", (Vector2){1, 1}, LoadTexture("sprites/lol.png"), 32, 32);
+	ground.addTexture("default", (Vector2){1, 1}, LoadTexture("sprites/ground.png"), 32, 32);
 
 	// daha tex var enemy
 }
@@ -116,6 +118,9 @@ void Game::run()
 		//     numTilesY = screenHeight / floor.height;
 		// }
 		//  Update
+		// if (IsKeyPressed(KEY_P))
+		// 	pause();
+		
 		pl.getTextures()["stand"].getCurrentFrame();
 		pl.move(map);
 		//----------------------------------------------------------------------------------
@@ -175,6 +180,8 @@ void Game::run()
 		ClearBackground(RAYWHITE);
 		renderMap();
 		pl.drawRec(pl.getCurrentTexture());
+    	DrawRectangle((int)((pl.getPositionX() + 16)/ 32) * 32, (int)((pl.getPositionY() + 16 )/ 32)*32, 32, 32, Fade(YELLOW, 0.5f));
+		DrawRectangleLines(pl.getPositionX() + pl.getHitbox().x, pl.getPositionY() + pl.getHitbox().y, pl.getHitbox().width, pl.getHitbox().height, Fade(LIGHTGRAY, 0.5f));
 		// BeginMode2D(camera);
 		//     pl.drawRec(pl.getCurrentTexture());
 		//     fen.drawRec("default");
@@ -193,6 +200,7 @@ void Game::run()
 		for (auto& en : enemies)
 		{
 			en->drawRec("stand");
+			DrawRectangleLines(en->getPositionX() + en->getHitbox().x, en->getPositionY() + en->getHitbox().y, en->getHitbox().width, en->getHitbox().height, Fade(RED, 0.5f));
 			en->move(pl, map);
 		}
 		drawHuds();
